@@ -1,0 +1,359 @@
+DISEÑO FÍSICO DEL CARRO DE COMPRA INTELIGENTE
+
+1.  CONCEPTO GENERAL
+
+El proyecto propone adaptar un carro de supermercado convencional para
+convertirlo en un carro inteligente, manteniendo una apariencia y una
+utilización similares a las de un carro tradicional.
+
+El diseño debe priorizar: - Robustez para uso intensivo en
+supermercado. - Seguridad y estabilidad. - Facilidad de limpieza. -
+Protección de los componentes electrónicos. - Mantenimiento sencillo y
+modular. - Bajo centro de gravedad. - Integración de los componentes sin
+reducir excesivamente el espacio útil de la cesta. - Utilización de
+ruedas convencionales de carro de supermercado.
+
+La propuesta se basa en una estructura de carro comercial reforzada, una
+cesta que funciona como plataforma de pesaje, un módulo superior para
+interacción con el usuario y un módulo inferior protegido para
+alimentación y carga.
+
+2.  DIMENSIONES GENERALES APROXIMADAS
+
+Las dimensiones finales dependerán del modelo de carro comercial
+utilizado como base, pero se plantea aproximadamente:
+
+-   Altura total: 1,05–1,10 m.
+-   Longitud total: aproximadamente 1,00 m.
+-   Anchura total: aproximadamente 0,58–0,65 m.
+-   Capacidad de cesta: aproximadamente 100–125 litros.
+-   Pantalla: 9 pulgadas.
+-   Módulo inferior de alimentación: aproximadamente 300 × 200 × 180–200
+    mm.
+-   Batería: aproximadamente 220 × 180 × 180 mm como envolvente de
+    diseño.
+
+El objetivo es que el carro conserve unas dimensiones similares a las de
+un carro de supermercado convencional y pueda circular por los pasillos
+sin dificultar el tránsito.
+
+3.  ESTRUCTURA DEL CARRO
+
+La estructura principal parte de un carro de supermercado convencional
+de aproximadamente 100–125 litros.
+
+La estructura debe reforzarse en las zonas donde se incorporan los
+nuevos elementos, especialmente:
+
+-   Unión entre la cesta y el chasis.
+-   Soportes de la pantalla.
+-   Soporte del lector de códigos.
+-   Soporte de la cámara.
+-   Módulo inferior de alimentación.
+-   Puntos de fijación de las células de carga.
+-   Protección de cables y conectores.
+
+Los refuerzos deben realizarse procurando no aumentar excesivamente el
+peso del carro.
+
+Se recomienda utilizar perfiles metálicos, placas de acero o aluminio y
+soportes atornillados para facilitar el mantenimiento y la sustitución
+de componentes.
+
+Las zonas susceptibles de recibir golpes deben incorporar protecciones
+mecánicas y topes.
+
+4.  CESTA COMO PLATAFORMA DE PESAJE
+
+Una de las características principales del diseño es que toda la cesta
+funciona como una báscula.
+
+La cesta se apoya sobre cuatro células de carga, distribuidas
+aproximadamente una en cada esquina o punto estructural de apoyo.
+
+La cesta debe quedar mecánicamente separada del resto del chasis para
+que su peso y el de los productos sean los que actúen sobre las células.
+
+La batería, la electrónica y el resto de elementos situados debajo de la
+cesta no deben transmitir su peso a las células de carga.
+
+Para conseguirlo, se plantea una plataforma flotante entre la cesta y el
+chasis.
+
+El sistema debe incorporar topes mecánicos de seguridad para evitar que
+las células de carga sufran esfuerzos excesivos por golpes, sobrecargas
+o movimientos bruscos.
+
+También es importante que el cableado conectado a la cesta tenga
+suficiente holgura para no transmitir fuerzas mecánicas que puedan
+alterar las mediciones.
+
+5.  CÉLULAS DE CARGA
+
+Se plantea utilizar cuatro células de carga de tipo industrial.
+
+Como criterio de diseño: - Construcción robusta. - Protección frente a
+humedad y suciedad. - Capacidad aproximada de 50–75 kg por célula. -
+Protección IP66 o superior cuando sea posible. - Montaje protegido
+dentro de la estructura.
+
+Las células deben quedar protegidas frente a golpes directos.
+
+La disposición de cuatro puntos permite que la cesta completa actúe como
+una plataforma de pesaje y mantiene el diseño limpio, sin necesidad de
+instalar un sensor independiente para cada producto.
+
+6.  PANTALLA
+
+La pantalla se integrará en la parte superior del carro, junto al
+manillar.
+
+Se plantea una pantalla táctil de aproximadamente 9 pulgadas.
+
+Características de diseño: - Diagonal: 9 pulgadas. - Formato
+horizontal. - Resolución aproximada: 1024 × 600. - Superficie táctil
+capacitiva. - Frontal protegido mediante vidrio. - Marco resistente. -
+Brillo suficiente para funcionar bajo la iluminación de un supermercado.
+
+No es necesario utilizar una pantalla de muy alta resolución, ya que el
+objetivo es disponer de una superficie cómoda para visualizar la
+información de la compra y utilizar los controles.
+
+La pantalla debe quedar ligeramente inclinada hacia el conductor para
+mejorar la ergonomía y reducir reflejos.
+
+El conjunto debe estar protegido por una carcasa resistente a golpes.
+
+7.  TPV INTEGRADO
+
+El terminal de pago se integra físicamente en uno de los laterales de la
+pantalla.
+
+No se plantea utilizar un segundo monitor para el terminal de pago.
+
+El TPV debe quedar dentro del mismo conjunto estructural de la pantalla,
+pero en una zona independiente y fácilmente accesible para el usuario.
+
+Esta configuración permite: - Reducir el volumen del conjunto
+superior. - Evitar una segunda pantalla. - Simplificar el diseño. -
+Facilitar la limpieza. - Proteger el terminal frente a golpes.
+
+El lector de pago debe estar orientado hacia el conductor y situado a
+una altura cómoda para utilizar tarjetas y dispositivos NFC.
+
+8.  LECTOR DE CÓDIGOS DE BARRAS
+
+El lector de códigos de barras será un componente físico independiente
+de la cámara.
+
+Debe estar situado en el conjunto superior del carro y orientado hacia
+el conductor.
+
+La posición propuesta permite que el usuario coja un producto, lo
+acerque al lector y lo vuelva a introducir en la cesta.
+
+Se recomienda utilizar un módulo de lectura 1D/2D de formato compacto,
+integrado dentro de una carcasa resistente.
+
+El frontal del lector debe quedar protegido y disponer de una ventana
+transparente resistente a arañazos.
+
+Su posición debe evitar que el usuario tenga que realizar movimientos
+incómodos para utilizarlo.
+
+9.  CÁMARA DE VIGILANCIA DEL INTERIOR DE LA CESTA
+
+La cámara se separa físicamente del lector de códigos de barras.
+
+Su función dentro del diseño físico es observar el interior de la cesta.
+
+La posición recomendada es en la parte superior del carro,
+aproximadamente sobre el borde delantero o superior de la cesta, con
+orientación hacia abajo.
+
+Debe proporcionar un campo de visión suficientemente amplio para cubrir
+el interior de la cesta.
+
+Se recomienda: - Cámara compacta. - Gran angular. - Resolución
+aproximada de 1080p. - Carcasa protegida. - Ventana frontal
+resistente. - Soporte regulable para poder modificar ligeramente el
+ángulo.
+
+La cámara no debe quedar orientada hacia el conductor, sino hacia el
+interior del carro.
+
+10. SENSOR DE DISTANCIA
+
+Como elemento auxiliar se puede incorporar un sensor ToF o sensor de
+proximidad cerca de la zona superior de la cesta.
+
+Su función física es detectar la entrada de objetos en la cesta y
+permitir que el sistema de captura se active cuando sea necesario.
+
+El sensor debe quedar protegido y situado de forma que tenga una visión
+clara de la zona de entrada de productos.
+
+Se prioriza ToF frente a sensores infrarrojos simples cuando sea
+necesario disponer de una detección de distancia más precisa.
+
+11. MÓDULO INFERIOR DE ALIMENTACIÓN
+
+La batería y el resto de componentes de alimentación se concentran en un
+único módulo situado en la parte inferior del carro.
+
+Esta ubicación se encuentra por debajo de la cesta y entre las ruedas.
+
+El módulo inferior debe contener: - Batería. - Sistema de protección de
+batería. - Distribución eléctrica. - Conversores de tensión. - Sistema
+de carga. - Protecciones eléctricas. - Conectores principales.
+
+El módulo debe estar protegido mediante una carcasa rígida.
+
+La carcasa debe resistir: - Golpes contra otros carros. - Pequeños
+impactos contra elementos del supermercado. - Suciedad. -
+Salpicaduras. - Vibraciones. - Limpieza habitual del establecimiento.
+
+La tapa debe poder retirarse para permitir el mantenimiento.
+
+12. BATERÍA
+
+Se plantea una batería de tecnología LiFePO4.
+
+Especificación objetivo:
+
+-   Tensión nominal: 25,6 V.
+-   Capacidad: 20 Ah.
+-   Energía nominal: aproximadamente 512 Wh.
+-   Peso aproximado: 5–6 kg.
+-   Envolvente aproximada: 220 × 180 × 180 mm.
+
+La batería debe situarse lo más baja y centrada posible.
+
+No debe colocarse en el manillar ni dentro de la cesta.
+
+La posición inferior tiene varias ventajas: - Reduce el centro de
+gravedad. - Mejora la estabilidad. - No reduce el espacio de carga. -
+Facilita la protección de la batería. - Permite colocar el receptor de
+carga inalámbrica en la parte inferior.
+
+13. SISTEMA DE CARGA
+
+El diseño contempla la posibilidad de realizar la carga cuando el carro
+se encuentra estacionado.
+
+Se plantea un receptor de carga inalámbrica situado en la parte inferior
+del módulo de alimentación.
+
+La bobina receptora debe quedar protegida dentro de una carcasa y
+orientada hacia el suelo.
+
+El diseño debe permitir que el carro pueda estacionarse sobre una zona
+de carga sin que el usuario tenga que conectar manualmente un cable.
+
+Como sistema complementario, puede existir un sistema de carga por
+contacto en la zona de estacionamiento para aumentar la flexibilidad y
+facilitar el mantenimiento.
+
+La carga inalámbrica debe considerarse principalmente como una solución
+de comodidad y mantenimiento de autonomía, mientras que la estructura
+eléctrica debe permitir también una carga convencional durante las
+operaciones de mantenimiento.
+
+15. PROTECCIÓN DE LOS COMPONENTES
+
+Todos los componentes electrónicos que se encuentren fuera de la
+pantalla o de la cesta deben estar protegidos.
+
+Se recomienda: - Carcasas de ABS, policarbonato o aluminio. - Juntas en
+las zonas expuestas. - Conectores protegidos. - Canalizaciones para
+cables. - Tornillería resistente. - Protección contra vibraciones. -
+Elementos antivibración en los módulos sensibles.
+
+Los componentes que puedan recibir impactos deben quedar integrados
+dentro de la estructura en lugar de sobresalir del carro.
+
+16. CABLEADO
+
+El cableado debe estar completamente integrado en la estructura.
+
+No debe haber cables sueltos ni conexiones accesibles al usuario.
+
+Se recomienda utilizar: - Canaletas internas. - Tubos o fundas
+protectoras. - Conectores bloqueables. - Sujeciones mecánicas. - Holgura
+controlada en las conexiones de la cesta.
+
+La zona de las células de carga requiere especial atención porque los
+cables no deben ejercer fuerzas sobre la cesta.
+
+17. ERGONOMÍA
+
+El carro debe conservar una experiencia de utilización similar a un
+carro convencional.
+
+El conductor debe poder: - Empujar el carro con normalidad. - Ver la
+pantalla sin detenerse continuamente. - Utilizar el lector de códigos
+cómodamente. - Realizar el pago sin cambiar de posición. - Introducir
+productos en la cesta sin obstáculos.
+
+La pantalla y el lector deben quedar concentrados en la zona del
+manillar para crear un único puesto de interacción.
+
+18. DISTRIBUCIÓN FÍSICA FINAL
+
+La distribución propuesta es:
+
+PARTE SUPERIOR: - Manillar. - Pantalla táctil de 9 pulgadas. - TPV
+integrado en el lateral de la pantalla. - Lector de códigos orientado
+hacia el conductor. - Cámara orientada hacia el interior de la cesta. -
+Sensor de proximidad/ToF.
+
+PARTE CENTRAL: - Cesta de aproximadamente 100–125 litros. - Plataforma
+de pesaje. - Cuatro células de carga. - Elementos de protección de las
+células.
+
+PARTE INFERIOR: - Batería LiFePO4 de 25,6 V y 20 Ah. - Sistema de
+protección. - Conversores. - Módulo de carga. - Receptor de carga
+inalámbrica. - Protecciones y cableado.
+
+PARTE INFERIOR EXTERIOR: - Receptor inalámbrico protegido. - Ruedas
+convencionales de supermercado.
+
+19. OBJETIVO DE ROBUSTEZ
+
+El carro está pensado para un entorno de uso intensivo.
+
+Por ello, los elementos más importantes deben diseñarse para soportar: -
+Golpes entre carros. - Vibraciones. - Uso continuo durante toda la
+jornada. - Derrames accidentales. - Limpieza frecuente. - Manipulación
+repetida por distintos usuarios. - Sobrecarga ocasional de la cesta. -
+Desgaste de las ruedas. - Pequeños impactos contra estanterías y
+mobiliario.
+
+La filosofía de diseño debe ser modular: cuando un componente falle,
+debe poder sustituirse sin desmontar todo el carro.
+
+El diseño final debe priorizar la robustez y la facilidad de
+mantenimiento frente a la reducción extrema de peso o coste.
+
+20. OBJETIVO FINAL DEL DISEÑO
+
+El resultado debe parecer un carro de supermercado convencional
+evolucionado, no una máquina industrial colocada dentro de una cesta.
+
+La electrónica debe quedar integrada en la estructura y protegida.
+
+La cesta debe conservar su capacidad y funcionar como una plataforma de
+pesaje.
+
+La pantalla, el TPV y el lector deben formar un único módulo ergonómico
+en el manillar.
+
+La cámara debe quedar separada del lector y orientada exclusivamente
+hacia el interior de la cesta.
+
+La batería debe situarse en la zona inferior, centrada y protegida,
+permitiendo además la incorporación de carga inalámbrica desde el suelo.
+
+El objetivo final es conseguir un carro robusto, estable, fácil de
+limpiar, sencillo de mantener y preparado para un uso intensivo en un
+supermercado.
