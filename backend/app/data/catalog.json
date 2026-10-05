@@ -8,7 +8,8 @@
       "unit": "unit",
       "weight_g": 520,
       "vision_label": "a small plastic bottle of mineral water",
-      "emoji": "💧"
+      "emoji": "💧",
+      "yolo_label": "bottle"
     },
     {
       "id": "pan-pipas-antin-166",
@@ -39,6 +40,17 @@
       "weight_g": 160,
       "vision_label": "a bag of mini chocolate chip cookies",
       "emoji": "🍪"
+    },
+    {
+      "id": "platano-canarias",
+      "barcode": "2000000000190",
+      "name": "Plátano de Canarias",
+      "price": 2.35,
+      "unit": "kg",
+      "weight_g": 180,
+      "vision_label": "a banana",
+      "emoji": "🍌",
+      "yolo_label": "banana"
     }
   ]
 }

@@ -24,6 +24,12 @@ app = FastAPI(title="Smart Cart")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 
+def product_for_label(label: str) -> str | None:
+    """Real catalog product first (bottle → Cabreiroá); otherwise YOLO's generic demo category."""
+    product = catalog.by_yolo_label(label)
+    return product.id if product else vision.product_id(label)
+
+
 # Compatibility helpers for the original one-photo contract.
 def recognize(image: Image.Image) -> list[tuple[str, float]]:
     return vision.recognize(image) if hasattr(vision, "recognize") else []
@@ -150,7 +156,9 @@ async def vision_detect(body: ImageIn):
     if epoch != cart_epoch or cart.state != "idle" or cart.mode != "vision":
         raise HTTPException(409, "El carro cambió durante la detección. Vuelve a intentarlo.")
     for d in result["detections"]:
-        d["product_id"] = vision.product_id(d["label"])
+        d["product_id"] = product_for_label(d["label"])
+        if product := catalog.by_yolo_label(d["label"]):
+            d["name"] = product.name
     now = time.monotonic()
     for key, entry in list(detections_cache.items()):
         if now - entry["created"] > 30:
@@ -188,7 +196,7 @@ async def vision_recognize(body: ImageIn):
     if epoch != cart_epoch or cart.state != "idle" or cart.mode != "vision":
         raise HTTPException(409, "El carro cambió durante el reconocimiento.")
     eligible = [d for d in result["detections"] if d["product_key"]]
-    candidates = [(vision.product_id(eligible[0]["label"]), eligible[0]["confidence"])] if len(eligible) == 1 else []
+    candidates = [(product_for_label(eligible[0]["label"]), eligible[0]["confidence"])] if len(eligible) == 1 else []
     cart.vision_result(candidates)
     return await publish()
 
