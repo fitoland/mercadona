@@ -5,6 +5,7 @@ States: idle, confirming (the AI is not sure and the customer picks), paying, pa
 
 import uuid
 from dataclasses import dataclass
+from datetime import datetime
 
 from .catalog import Catalog, Product
 
@@ -57,6 +58,8 @@ class Cart:
         self.catalog = catalog
         self.mode = Mode.SCANNER
         self.notice: dict | None = None
+        # Paid tickets outlive the cart so the customer can open them later from the QR.
+        self.receipts: dict[str, dict] = {}
         self.new_cart()
 
     def new_cart(self) -> None:
@@ -132,7 +135,19 @@ class Cart:
             self.notify("There is no payment in progress")
             return
         self.receipt_id = new_id().upper()
+        self.receipts[self.receipt_id] = {
+            "id": self.receipt_id,
+            "paid_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+            "lines": [l.to_dict() for l in self.lines],
+            "total": round(sum(l.total for l in self.lines), 2),
+        }
         self.state = State.PAID
+
+    def receipt(self, receipt_id: str) -> dict:
+        receipt = self.receipts.get(receipt_id.upper())
+        if receipt is None:
+            raise LookupError(f"Unknown receipt {receipt_id}")
+        return receipt
 
     def _add(self, product: Product, source: str) -> None:
         if product.sold_by_weight:

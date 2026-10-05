@@ -159,6 +159,11 @@ async def confirm_payment():
     return await publish()
 
 
+@app.get("/api/receipts/{receipt_id}")
+def get_receipt(receipt_id: str):
+    return cart.receipt(receipt_id)
+
+
 @app.post("/api/new-cart")
 async def new_cart():
     cart.new_cart()

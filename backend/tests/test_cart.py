@@ -140,6 +140,26 @@ def test_payment_flow(cart):
     assert cart.lines == []
 
 
+def test_paid_receipt_is_kept_after_a_new_cart(cart):
+    cart.scan(MILK.barcode)
+    cart.scan(MILK.barcode)
+    cart.pay()
+    cart.confirm_payment()
+    receipt_id = cart.receipt_id
+    cart.new_cart()
+
+    receipt = cart.receipt(receipt_id.lower())
+    assert receipt["id"] == receipt_id
+    assert [(l["product"]["id"], l["quantity"]) for l in receipt["lines"]] == [(MILK.id, 2)]
+    assert receipt["total"] == round(MILK.price * 2, 2)
+    assert receipt["paid_at"]
+
+
+def test_unknown_receipt_raises(cart):
+    with pytest.raises(LookupError):
+        cart.receipt("NOPE")
+
+
 def test_cancel_leaves_the_payment_screen_keeping_the_cart(cart):
     cart.scan(MILK.barcode)
     cart.pay()
