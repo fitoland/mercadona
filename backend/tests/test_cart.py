@@ -1,13 +1,15 @@
 import pytest
 
 from app.cart import Cart, Mode, State
-from app.catalog import Catalog
+from app.catalog import Catalog, Product
 
-catalog = Catalog.load()
-MILK = catalog.by_id("leche-entera")
-WATER = catalog.by_id("agua")
-YOGURT = catalog.by_id("yogur-natural")
-BANANA = catalog.by_id("platano")
+# Own catalog so the tests don't depend on which products the demo uses.
+MILK = Product("milk", "2000000000015", "Milk 1 L", 0.95, "unit", 1050, "a carton of milk", "🥛")
+WATER = Product("water", "2000000000053", "Water 1.5 L", 0.30, "unit", 1530, "a bottle of water", "💧")
+YOGURT = Product("yogurt", "2000000000077", "Yogurt pack 6", 1.10, "unit", 750, "a pack of yogurts", "🥣")
+RICE = Product("rice", "2000000000091", "Rice 1 kg", 1.25, "unit", 1010, "a bag of rice", "🍚")
+BANANA = Product("banana", "2000000000114", "Bananas", 2.35, "kg", 900, "bananas", "🍌")
+catalog = Catalog([MILK, WATER, YOGURT, RICE, BANANA])
 
 
 @pytest.fixture
@@ -73,7 +75,7 @@ def test_confident_vision_result_adds_the_product(cart):
 
 
 def test_unsure_vision_result_asks_the_customer(cart):
-    cart.vision_result([(MILK.id, 0.4), (YOGURT.id, 0.3), (WATER.id, 0.2), ("arroz", 0.1)])
+    cart.vision_result([(MILK.id, 0.4), (YOGURT.id, 0.3), (WATER.id, 0.2), (RICE.id, 0.1)])
 
     assert cart.state == State.CONFIRMING
     assert [p.id for p, _ in cart.candidates] == [MILK.id, YOGURT.id, WATER.id]

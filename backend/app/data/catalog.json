@@ -1,184 +1,44 @@
 {
   "products": [
     {
-      "id": "leche-entera",
-      "barcode": "2000000000015",
-      "name": "Leche entera Hacendado 1 L",
-      "price": 0.95,
+      "id": "agua-cabreiroa-05",
+      "barcode": "8411902007059",
+      "name": "Agua mineral Cabreiroá 0,5 L",
+      "price": 0.45,
       "unit": "unit",
-      "weight_g": 1050,
-      "vision_label": "a carton of milk",
-      "emoji": "🥛"
-    },
-    {
-      "id": "huevos",
-      "barcode": "2000000000022",
-      "name": "Huevos frescos L 12 uds",
-      "price": 2.4,
-      "unit": "unit",
-      "weight_g": 780,
-      "vision_label": "a carton of eggs",
-      "emoji": "🥚"
-    },
-    {
-      "id": "pan-molde",
-      "barcode": "2000000000039",
-      "name": "Pan de molde Hacendado",
-      "price": 1.25,
-      "unit": "unit",
-      "weight_g": 460,
-      "vision_label": "a bag of sliced bread",
-      "emoji": "🍞"
-    },
-    {
-      "id": "aceite-oliva",
-      "barcode": "2000000000046",
-      "name": "Aceite de oliva virgen extra 1 L",
-      "price": 8.95,
-      "unit": "unit",
-      "weight_g": 940,
-      "vision_label": "a bottle of olive oil",
-      "emoji": "🫒"
-    },
-    {
-      "id": "agua",
-      "barcode": "2000000000053",
-      "name": "Agua mineral 1,5 L",
-      "price": 0.3,
-      "unit": "unit",
-      "weight_g": 1530,
-      "vision_label": "a plastic bottle of water",
+      "weight_g": 520,
+      "vision_label": "a small plastic bottle of mineral water",
       "emoji": "💧"
     },
     {
-      "id": "refresco-cola",
-      "barcode": "2000000000060",
-      "name": "Refresco de cola lata 33 cl",
-      "price": 0.4,
+      "id": "pan-pipas-antin-166",
+      "barcode": "8423102210153",
+      "name": "Pan de pipas Antin 166 g",
+      "price": 0.9,
       "unit": "unit",
-      "weight_g": 350,
-      "vision_label": "a soda can",
-      "emoji": "🥤"
+      "weight_g": 166,
+      "vision_label": "a package of bread with sunflower seeds",
+      "emoji": "🍞"
     },
     {
-      "id": "yogur-natural",
-      "barcode": "2000000000077",
-      "name": "Yogur natural pack 6",
-      "price": 1.1,
+      "id": "panes-especiales-fuet-80",
+      "barcode": "8402001028731",
+      "name": "Panes especiales sabor fuet 80 g",
+      "price": 1.0,
       "unit": "unit",
-      "weight_g": 750,
-      "vision_label": "a pack of yogurts",
-      "emoji": "🥣"
+      "weight_g": 80,
+      "vision_label": "a small bag of crunchy bread snacks",
+      "emoji": "🥖"
     },
     {
-      "id": "macarrones",
-      "barcode": "2000000000084",
-      "name": "Macarrones Hacendado 1 kg",
-      "price": 1.2,
+      "id": "mini-cookies-160",
+      "barcode": "8480000141613",
+      "name": "Mini cookies 160 g",
+      "price": 2.0,
       "unit": "unit",
-      "weight_g": 1010,
-      "vision_label": "a bag of pasta",
-      "emoji": "🍝"
-    },
-    {
-      "id": "arroz",
-      "barcode": "2000000000091",
-      "name": "Arroz redondo 1 kg",
-      "price": 1.25,
-      "unit": "unit",
-      "weight_g": 1010,
-      "vision_label": "a bag of rice",
-      "emoji": "🍚"
-    },
-    {
-      "id": "atun",
-      "barcode": "2000000000107",
-      "name": "Atún claro en aceite pack 3",
-      "price": 2.85,
-      "unit": "unit",
-      "weight_g": 260,
-      "vision_label": "cans of tuna",
-      "emoji": "🐟"
-    },
-    {
-      "id": "platano",
-      "barcode": "2000000000114",
-      "name": "Plátano de Canarias",
-      "price": 2.35,
-      "unit": "kg",
-      "weight_g": 900,
-      "vision_label": "bananas",
-      "emoji": "🍌"
-    },
-    {
-      "id": "manzana",
-      "barcode": "2000000000121",
-      "name": "Manzana Golden",
-      "price": 2.19,
-      "unit": "kg",
-      "weight_g": 1000,
-      "vision_label": "apples",
-      "emoji": "🍎"
-    },
-    {
-      "id": "naranja",
-      "barcode": "2000000000138",
-      "name": "Naranja de mesa",
-      "price": 1.69,
-      "unit": "kg",
-      "weight_g": 1500,
-      "vision_label": "oranges",
-      "emoji": "🍊"
-    },
-    {
-      "id": "tomate",
-      "barcode": "2000000000145",
-      "name": "Tomate rama",
-      "price": 2.49,
-      "unit": "kg",
-      "weight_g": 800,
-      "vision_label": "tomatoes",
-      "emoji": "🍅"
-    },
-    {
-      "id": "pimiento-rojo",
-      "barcode": "2000000000152",
-      "name": "Pimiento rojo",
-      "price": 2.99,
-      "unit": "kg",
-      "weight_g": 500,
-      "vision_label": "red bell peppers",
-      "emoji": "🫑"
-    },
-    {
-      "id": "limon",
-      "barcode": "2000000000169",
-      "name": "Limón",
-      "price": 2.29,
-      "unit": "kg",
-      "weight_g": 400,
-      "vision_label": "lemons",
-      "emoji": "🍋"
-    },
-    {
-      "id": "uva",
-      "barcode": "2000000000176",
-      "name": "Uva blanca",
-      "price": 3.49,
-      "unit": "kg",
-      "weight_g": 700,
-      "vision_label": "grapes",
-      "emoji": "🍇"
-    },
-    {
-      "id": "aguacate",
-      "barcode": "2000000000183",
-      "name": "Aguacate",
-      "price": 4.99,
-      "unit": "kg",
-      "weight_g": 600,
-      "vision_label": "avocados",
-      "emoji": "🥑"
+      "weight_g": 160,
+      "vision_label": "a bag of mini chocolate chip cookies",
+      "emoji": "🍪"
     }
   ]
 }
