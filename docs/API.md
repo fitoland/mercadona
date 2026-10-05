@@ -51,16 +51,19 @@ Product {
   barcode: string            // EAN-13
   name: string
   price: number              // €
-  unit: "unit" | "kg"        // en la demo solo se usan productos "unit"
-  weight_g: number           // no se usa en la demo
+  unit: "unit" | "kg"        // "kg": se cobra por peso (en la demo, el plátano)
+  weight_g: number           // si unit = "kg", peso por defecto de una pieza (lo que daría la báscula)
   vision_label: string       // descripción en inglés que usa la IA
   emoji: string              // "imagen" del producto en la UI
+  yolo_label: string | null  // clase de YOLO que se mapea a este producto ("bottle", "banana")
 }
 
 Line {
   id: string
   product: Product
-  quantity: number           // unidades; escanear el mismo producto otra vez suma 1
+  units: number              // piezas; escanear o detectar el mismo producto otra vez suma 1
+  quantity: number           // = units, o kg con 3 decimales si unit = "kg" (units × weight_g)
+  weight_g: number | null    // peso total de la línea si unit = "kg"; null si no
   total: number              // € redondeado a 2 decimales
   source: "scanner" | "vision" | "selector"   // cómo se añadió la primera unidad
 }
