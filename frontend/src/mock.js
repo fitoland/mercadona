@@ -13,6 +13,7 @@ export function createMock() {
   const products = catalogData.products
   const subs = new Set()
   let s = fresh('scanner')
+  const receipts = new Map()
 
   function fresh(mode) {
     return {
@@ -70,6 +71,11 @@ export function createMock() {
   }
 
   async function handle(method, path, body = {}) {
+    if (path.startsWith('/api/receipts/')) {
+      const receipt = receipts.get(decodeURIComponent(path.split('/').pop()))
+      if (!receipt) throw new HttpError('Ese ticket no existe')
+      return structuredClone(receipt)
+    }
     switch (path) {
       case '/api/catalog':
         return structuredClone(products)
@@ -139,6 +145,12 @@ export function createMock() {
         await wait(700)
         s.state = 'paid'
         s.receipt_id = uid().toUpperCase()
+        receipts.set(s.receipt_id, {
+          id: s.receipt_id,
+          paid_at: new Date().toISOString(),
+          lines: structuredClone(s.lines),
+          total: s.total,
+        })
         break
       case '/api/new-cart':
         s = fresh(s.mode)

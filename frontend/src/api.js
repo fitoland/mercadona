@@ -47,6 +47,7 @@ export const api = {
   pay: () => http('POST', '/api/pay'),
   payConfirm: () => http('POST', '/api/pay/confirm'),
   newCart: () => http('POST', '/api/new-cart'),
+  receipt: (receipt_id) => http('GET', `/api/receipts/${encodeURIComponent(receipt_id)}`),
   simVision: (product_id) => http('POST', '/api/sim/vision', { product_id }),
 }
 

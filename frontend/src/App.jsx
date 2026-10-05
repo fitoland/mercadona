@@ -1,4 +1,4 @@
-// #/debug opens the demo control panel; anything else is the cart screen.
+// #/debug opens the demo control panel, #/ticket/{id} the digital ticket; anything else is the cart screen.
 // There is no QR / pairing screen: the cart starts already linked ("Carro conectado").
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, useCart } from './api.js'
@@ -14,6 +14,7 @@ import Payment from './components/Payment.jsx'
 import Exit from './components/Exit.jsx'
 import Toast from './components/Toast.jsx'
 import DebugPanel from './components/DebugPanel.jsx'
+import ReceiptPage from './components/ReceiptPage.jsx'
 
 function useHash() {
   const [hash, setHash] = useState(location.hash)
@@ -29,6 +30,7 @@ export default function App() {
   const hash = useHash()
   const cart = useCart()
   if (hash === '#/debug') return <DebugPanel {...cart} />
+  if (hash.startsWith('#/ticket/')) return <ReceiptPage receiptId={hash.slice('#/ticket/'.length)} />
   return <CartScreen {...cart} />
 }
 

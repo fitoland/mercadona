@@ -213,3 +213,18 @@ a:hover { color: var(--green-dark); }
 .yolo-result > span:first-child { flex: 1; min-width: 0; }
 .yolo-ticket { border-top: 1px solid #dce5df; padding-top: 16px; }
 @media(max-width: 600px) { .yolo-panel { padding: 14px; } .yolo-result { font-size: 13px; } .yolo-controls > * { font-size: 13px; } }
+
+/* Digital ticket (#/ticket/{id}), opened on the customer's phone from the QR. */
+.qr { display: block; width: 240px; height: 240px; }
+.receipt-page { min-height: 100vh; padding: 20px 16px 32px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.receipt-brand { font-family: var(--display); font-weight: 800; font-size: 22px; color: var(--green); }
+.receipt { width: 100%; max-width: 480px; padding: 22px 20px; display: flex; flex-direction: column; gap: 16px; align-items: stretch; }
+.receipt-head { display: flex; flex-direction: column; gap: 4px; padding-bottom: 12px; border-bottom: 2px dashed var(--line); }
+.receipt-head .h3 { margin: 0; }
+.receipt-lines { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.receipt-lines li { display: flex; align-items: center; gap: 12px; }
+.receipt-name { flex: 1; min-width: 0; display: flex; flex-direction: column; font-size: 16px; }
+.receipt-name small { font-size: 14px; }
+.receipt-total { display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; border-top: 2px dashed var(--line); font-size: 18px; }
+.receipt-total strong { font-size: 24px; }
+.receipt-foot { margin: 0; text-align: center; font-size: 15px; }
