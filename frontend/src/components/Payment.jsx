@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { eur, countUnits, productsLabel } from '../format.js'
+import { eur, countUnits, productsLabel, quantityPrefix } from '../format.js'
 import { BackIcon, CardIcon, PhoneIcon } from './Icons.jsx'
 import { Thumb } from './Product.jsx'
 import { TotalCard } from './Sidebar.jsx'
@@ -33,7 +33,7 @@ export default function Payment({ state, onBack, onConfirm }) {
               <li key={l.id}>
                 <Thumb product={l.product} size={36} />
                 <span className="summary-name">
-                  {l.quantity > 1 && `${l.quantity} × `}
+                  {quantityPrefix(l)}
                   {l.product.name}
                 </span>
                 <strong className="num">{eur(l.total)}</strong>

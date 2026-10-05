@@ -2,7 +2,25 @@ const eurFmt = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EU
 
 export const eur = (n) => eurFmt.format(n ?? 0)
 
-export const countUnits = (lines = []) => lines.reduce((n, l) => n + l.quantity, 0)
+const kgFmt = new Intl.NumberFormat('es-ES', { minimumFractionDigits: 3, maximumFractionDigits: 3 })
+
+// Products sold by weight: `quantity` is kg and `units` the pieces (API contract, Line).
+export const isWeighed = (product) => product?.unit === 'kg'
+
+export const countUnits = (lines = []) => lines.reduce((n, l) => n + (l.units ?? l.quantity), 0)
+
+// "0,180 kg × 2,35 €/kg" or "2 × 0,45 €"
+export const lineDetail = (l) =>
+  isWeighed(l.product)
+    ? `${kgFmt.format(l.quantity)} kg × ${eur(l.product.price)}/kg`
+    : `${l.units ?? l.quantity} × ${eur(l.product.price)}`
+
+// "0,180 kg · ", "2 × ", or nothing for a single unit unless `always`.
+export const quantityPrefix = (l, { always = false } = {}) => {
+  if (isWeighed(l.product)) return `${kgFmt.format(l.quantity)} kg · `
+  const units = l.units ?? l.quantity
+  return always || units > 1 ? `${units} × ` : ''
+}
 
 export const productsLabel = (n) => (n === 1 ? '1 producto' : `${n} productos`)
 

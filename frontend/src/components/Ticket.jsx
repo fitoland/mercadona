@@ -1,4 +1,4 @@
-import { eur, SOURCE_LABEL } from '../format.js'
+import { eur, isWeighed, lineDetail, SOURCE_LABEL } from '../format.js'
 import { MinusIcon } from './Icons.jsx'
 import { NutriScore, Thumb } from './Product.jsx'
 
@@ -18,9 +18,14 @@ export default function Ticket({ lines, onRemove }) {
             <div className="line-info">
               <div className="line-name">{l.product.name}</div>
               <div className="line-sub">
-                {l.quantity > 1 && <strong>{l.quantity} × </strong>}
-                {eur(l.product.price)}
-                {l.product.unit === 'kg' ? ' /kg' : ''}
+                {isWeighed(l.product) ? (
+                  <strong>{lineDetail(l)}</strong>
+                ) : (
+                  <>
+                    {l.quantity > 1 && <strong>{l.quantity} × </strong>}
+                    {eur(l.product.price)}
+                  </>
+                )}
                 <span className={`src src-${l.source}`}>{SOURCE_LABEL[l.source] ?? l.source}</span>
               </div>
             </div>

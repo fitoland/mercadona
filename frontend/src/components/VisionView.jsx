@@ -3,7 +3,7 @@ import { api } from '../api.js'
 import { newGate, stepGate } from '../gate.mjs'
 import { CloseIcon } from './Icons.jsx'
 import { cameraMessage } from './ScannerView.jsx'
-import { eur } from '../format.js'
+import { eur, quantityPrefix } from '../format.js'
 
 export default function VisionView({ onAdd, onClose, connected, lines = [], onRemove }) {
   const video = useRef(null), canvas = useRef(null), stream = useRef(null)
@@ -125,6 +125,6 @@ export default function VisionView({ onAdd, onClose, connected, lines = [], onRe
     <div className="yolo-settings"><label><input type="checkbox" checked={automatic} onChange={e=>{autoRef.current=e.target.checked;setAutomatic(e.target.checked);gate.current={...newGate(),locked:gate.current.locked}}}/> Añadir automáticamente</label><label>Confianza {Math.round(confidence*100)}% <input type="range" aria-label="Confianza mínima" min=".2" max=".8" step=".05" value={confidence} onChange={e=>{threshold.current=+e.target.value;setConfidence(+e.target.value);gate.current={...newGate(),locked:gate.current.locked}}}/></label></div>
     <div className="muted small">Automático: 1 objeto, 3 lecturas con ≥60% de confianza y retirar para repetir. Categorías genéricas con precios ficticios por unidad; no reconoce marcas ni peso.</div>
     <div className="yolo-results">{result?.detections.map((d,i)=><div className="yolo-result" key={i}><span>{d.name} <small>({Math.round(d.confidence*100)}%)</small></span>{d.product_id ? <button className="btn-ghost" disabled={used || busy || running} onClick={()=>commit(result,d.product_key)}>+ Añadir</button> : <span className="muted small">Sin producto asociado</span>}</div>)}{running && !automatic && <small>Pausa para cambiar de modo; usa «Hacer foto» para añadir manualmente.</small>}</div>
-    {!!lines.length && <div className="yolo-ticket"><h3 className="h3">Ticket compartido</h3>{lines.map(l=><div className="yolo-result" key={l.id}><span>{l.quantity} × {l.product.name}</span><strong>{eur(l.total)}</strong><button className="icon-btn" aria-label={`Quitar una unidad de ${l.product.name}`} onClick={()=>onRemove(l.id)}>−</button></div>)}</div>}
+    {!!lines.length && <div className="yolo-ticket"><h3 className="h3">Ticket compartido</h3>{lines.map(l=><div className="yolo-result" key={l.id}><span>{quantityPrefix(l, { always: true })}{l.product.name}</span><strong>{eur(l.total)}</strong><button className="icon-btn" aria-label={`Quitar una unidad de ${l.product.name}`} onClick={()=>onRemove(l.id)}>−</button></div>)}</div>}
   </section>
 }

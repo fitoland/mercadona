@@ -39,6 +39,13 @@ export function createMock() {
     s.notice = { id: uid(), text }
   }
   const lineTotal = (p, q) => round(p.unit === 'kg' ? (p.price * p.weight_g * q) / 1000 : p.price * q)
+  // Same shape as the backend Line: `units` are pieces, `quantity` is kg for weighed products.
+  const refresh = (line) => {
+    const weighed = line.product.unit === 'kg'
+    line.quantity = weighed ? Math.round(line.units * line.product.weight_g) / 1000 : line.units
+    line.weight_g = weighed ? line.units * line.product.weight_g : null
+    line.total = lineTotal(line.product, line.units)
+  }
   const recalc = () => {
     s.total = round(s.lines.reduce((t, l) => t + l.total, 0))
   }
@@ -50,12 +57,12 @@ export function createMock() {
 
   function add(p, source) {
     let line = s.lines.find((l) => l.product.id === p.id)
-    if (line) line.quantity += 1
+    if (line) line.units += 1
     else {
-      line = { id: uid(), product: p, quantity: 1, total: 0, source }
+      line = { id: uid(), product: p, units: 1, source }
       s.lines.push(line)
     }
-    line.total = lineTotal(p, line.quantity)
+    refresh(line)
     recalc()
     s.state = 'idle'
     s.candidates = []
@@ -120,9 +127,9 @@ export function createMock() {
           notice('No se puede cambiar el ticket durante el pago')
           break
         }
-        line.quantity -= 1
-        if (line.quantity <= 0) s.lines = s.lines.filter((l) => l !== line)
-        else line.total = lineTotal(line.product, line.quantity)
+        line.units -= 1
+        if (line.units <= 0) s.lines = s.lines.filter((l) => l !== line)
+        else refresh(line)
         recalc()
         notice(`Quitado: ${line.product.name}`)
         break

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api.js'
-import { eur, countUnits, productsLabel } from '../format.js'
+import { eur, countUnits, lineDetail, productsLabel } from '../format.js'
 import { Thumb } from './Product.jsx'
 
 const dateFmt = new Intl.DateTimeFormat('es-ES', { dateStyle: 'long', timeStyle: 'short' })
@@ -37,7 +37,7 @@ export default function ReceiptPage({ receiptId }) {
                   <span className="receipt-name">
                     {l.product.name}
                     <small className="muted">
-                      {l.quantity} × {eur(l.product.price)}
+                      {lineDetail(l)}
                     </small>
                   </span>
                   <strong className="num">{eur(l.total)}</strong>
