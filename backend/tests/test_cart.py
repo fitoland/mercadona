@@ -140,6 +140,24 @@ def test_payment_flow(cart):
     assert cart.lines == []
 
 
+def test_cancel_leaves_the_payment_screen_keeping_the_cart(cart):
+    cart.scan(MILK.barcode)
+    cart.pay()
+    cart.cancel()
+
+    assert cart.state == State.IDLE
+    assert products(cart) == [(MILK.id, 1)]
+
+
+def test_cancel_after_paying_does_nothing(cart):
+    cart.scan(MILK.barcode)
+    cart.pay()
+    cart.confirm_payment()
+    cart.cancel()
+
+    assert cart.state == State.PAID
+
+
 def test_cart_is_locked_during_payment(cart):
     cart.scan(MILK.barcode)
     cart.pay()
