@@ -2,6 +2,7 @@
 // There is no QR / pairing screen: the cart starts already linked ("Carro conectado").
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, useCart } from './api.js'
+import { countUnits } from './format.js'
 import Header from './components/Header.jsx'
 import Sidebar from './components/Sidebar.jsx'
 import EmptyCart from './components/EmptyCart.jsx'
@@ -35,14 +36,19 @@ function CartScreen({ state, conn, act, error }) {
   // Which camera panel is open on the left: null | "scanner" | "vision".
   const [panel, setPanel] = useState(null)
   const lastScan = useRef({ code: null, at: 0 })
+  const units = useRef(0)
+  units.current = countUnits(state?.lines)
 
   // API rule 1: ignore the same barcode for ~2 s (the camera reads it many times per second).
   const onScan = useCallback(
-    (code, { manual = false } = {}) => {
+    async (code, { manual = false } = {}) => {
       const now = Date.now()
       if (!manual && lastScan.current.code === code && now - lastScan.current.at < 2000) return
       lastScan.current = { code, at: now }
-      act(() => api.scan(code))
+      const before = units.current
+      const next = await act(() => api.scan(code))
+      // Back to the shopping list once the product is in; an unknown barcode keeps the camera open to retry.
+      if (next && countUnits(next.lines) > before) setPanel(null)
     },
     [act],
   )
