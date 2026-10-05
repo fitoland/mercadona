@@ -4,22 +4,21 @@ Hackathon Mercadona IT. Un carro que registra la compra mientras la haces y te d
 
 ## Dos versiones
 
-- **V1 (segura):** escáner de códigos de barras + báscula en el carro + selector de fruta en pantalla + pago con Tap to Pay. La fruta se elige en la pantalla y el peso la cobra.
-- **V2 (innovadora):** una cámara con IA (CLIP, modelo preentrenado) reconoce lo que entra en el carro. El peso dice cuándo y cuánto; la cámara, qué. El escáner queda como respaldo.
+- **V1 (segura):** el carro lleva un escáner de códigos de barras. Escaneas cada producto, el ticket se va generando en la pantalla del carro y pagas con Tap to Pay.
+- **V2 (innovadora):** haces una foto al producto con la cámara del carro y una IA (CLIP, modelo preentrenado) lo reconoce. Si no está segura, te propone las tres opciones más probables. El escáner queda como respaldo.
+
+La demo se hace con 4 productos envasados reales. La báscula del carro (fruta al peso, antifraude) y el pago real se explican en la presentación, no se implementan.
 
 ## Arquitectura
 
 ```
 Pantalla del carro (frontend, React + Vite)
-        ▲ WebSocket (estado)   │ HTTP (escaneos, selección, pago)
+        ▲ WebSocket (estado)   │ HTTP (escaneos, fotos, pago)
         │                      ▼
-Backend (Python, FastAPI) — máquina de estados, catálogo, reconocimiento
-        ▲
-        │ lecturas de peso
-Báscula simulada (en la demo no hay hardware)
+Backend (Python, FastAPI): máquina de estados del carro, catálogo, reconocimiento
 ```
 
-En la demo, el portátil hace de servidor de tienda. La báscula y el pago están simulados.
+En la demo, el portátil hace de servidor de tienda. El contrato entre front y back está en [`docs/API.md`](docs/API.md).
 
 ## Estructura
 
@@ -29,14 +28,15 @@ backend/
     main.py        API REST + WebSocket
     cart.py        máquina de estados del carro
     catalog.py     catálogo de productos
-    scale.py       báscula simulada
-    vision.py      reconocimiento con CLIP
+    vision.py      reconocimiento con IA
     data/catalog.json
-  tests/
+  tests/           tests de la máquina de estados
 frontend/
   src/
-    App.jsx        pantalla del carro y panel de debug (#/debug)
+    App.jsx        pantalla del carro
     components/
+docs/
+  API.md           contrato de la API
 ```
 
 ## Arrancar
@@ -51,6 +51,15 @@ python3 -m venv .venv
 .venv/bin/uvicorn app.main:app --reload
 ```
 
+Con el backend arrancado, http://localhost:8000/docs permite probar todos los endpoints desde el navegador.
+
+Tests:
+
+```bash
+cd backend
+.venv/bin/pytest
+```
+
 Frontend:
 
 ```bash
@@ -59,6 +68,24 @@ npm install
 npm run dev            # HTTPS=1 npm run dev para usar la cámara desde una tablet
 ```
 
-## Catálogo de demo
+## IA (V2)
 
-`backend/app/data/catalog.json`: 18 productos con precios aproximados. Los códigos de barras usan el prefijo GS1 20, reservado para uso interno de tienda; sustituidlos por los reales de los productos que llevéis a la demo.
+`main.py` usa dos funciones de `vision.py`:
+
+```python
+def recognize(image: PIL.Image.Image) -> list[tuple[str, float]]:  # [(product_id, score)], mejor primero
+def status() -> str:  # opcional: "ready" | "loading" | "error: ..."
+```
+
+Mientras no existan, la API funciona en modo `mock`: todas las fotos acaban en la pantalla de confirmación. Si la IA falla en directo, `POST /api/sim/vision` añade un producto como si lo hubiera reconocido.
+
+El modelo pesa unos 600 MB: conviene descargarlo antes del evento.
+
+## Catálogo
+
+`backend/app/data/catalog.json` tiene los productos reales de la demo, con su EAN-13 y su precio. Para añadir uno basta con una entrada nueva; `vision_label` es la descripción en inglés con la que la IA compara la foto.
+
+## Ramas
+
+- `main`: versión estable.
+- `develop`: desarrollo. Se trabaja aquí.
