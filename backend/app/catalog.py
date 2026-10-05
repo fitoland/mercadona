@@ -19,6 +19,8 @@ class Product:
     weight_g: float
     vision_label: str
     emoji: str
+    # COCO class YOLO reports for this product; the pretrained model can't tell brands apart.
+    yolo_label: str | None = None
 
     @property
     def sold_by_weight(self) -> bool:
@@ -33,14 +35,22 @@ class Catalog:
         self.products = products
         self._by_id = {p.id: p for p in products}
         self._by_barcode = {p.barcode: p for p in products}
+        self._by_yolo_label = {p.yolo_label: p for p in products if p.yolo_label}
 
     @classmethod
     def load(cls, path: Path = DEFAULT_PATH) -> "Catalog":
         data = json.loads(path.read_text(encoding="utf-8"))
-        return cls([Product(**p) for p in data["products"]])
+        products = [Product(**p) for p in data["products"]]
+        if path == DEFAULT_PATH:
+            demo = json.loads((DEFAULT_PATH.parent / "yolo_catalog.json").read_text(encoding="utf-8"))
+            products.extend(Product(**p) for p in demo["products"])
+        return cls(products)
 
     def by_id(self, product_id: str) -> Product | None:
         return self._by_id.get(product_id)
 
     def by_barcode(self, barcode: str) -> Product | None:
         return self._by_barcode.get(barcode.strip())
+
+    def by_yolo_label(self, label: str) -> Product | None:
+        return self._by_yolo_label.get(label)

@@ -1,0 +1,134 @@
+{
+  "products": [
+    {
+      "id": "yolo-bottle",
+      "barcode": "YOLO:bottle",
+      "name": "Botella · contenido sin identificar · demo",
+      "price": 1.0,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "bottle",
+      "emoji": "🍾"
+    },
+    {
+      "id": "yolo-banana",
+      "barcode": "YOLO:banana",
+      "name": "Plátano · demo",
+      "price": 0.45,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "banana",
+      "emoji": "🍌"
+    },
+    {
+      "id": "yolo-apple",
+      "barcode": "YOLO:apple",
+      "name": "Manzana · demo",
+      "price": 0.55,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "apple",
+      "emoji": "🍎"
+    },
+    {
+      "id": "yolo-orange",
+      "barcode": "YOLO:orange",
+      "name": "Naranja · demo",
+      "price": 0.5,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "orange",
+      "emoji": "🍊"
+    },
+    {
+      "id": "yolo-broccoli",
+      "barcode": "YOLO:broccoli",
+      "name": "Brócoli · demo",
+      "price": 1.5,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "broccoli",
+      "emoji": "🥦"
+    },
+    {
+      "id": "yolo-carrot",
+      "barcode": "YOLO:carrot",
+      "name": "Zanahoria · demo",
+      "price": 0.3,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "carrot",
+      "emoji": "🥕"
+    },
+    {
+      "id": "yolo-sandwich",
+      "barcode": "YOLO:sandwich",
+      "name": "Sándwich · demo",
+      "price": 2.0,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "sandwich",
+      "emoji": "🥪"
+    },
+    {
+      "id": "yolo-hot-dog",
+      "barcode": "YOLO:hot dog",
+      "name": "Perrito caliente · demo",
+      "price": 2.5,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "hot dog",
+      "emoji": "🌭"
+    },
+    {
+      "id": "yolo-pizza",
+      "barcode": "YOLO:pizza",
+      "name": "Pizza · demo",
+      "price": 3.5,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "pizza",
+      "emoji": "🍕"
+    },
+    {
+      "id": "yolo-donut",
+      "barcode": "YOLO:donut",
+      "name": "Dónut · demo",
+      "price": 0.9,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "donut",
+      "emoji": "🍩"
+    },
+    {
+      "id": "yolo-cake",
+      "barcode": "YOLO:cake",
+      "name": "Pastel · demo",
+      "price": 2.5,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "cake",
+      "emoji": "🍰"
+    },
+    {
+      "id": "yolo-cup",
+      "barcode": "YOLO:cup",
+      "name": "Taza · demo",
+      "price": 1.5,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "cup",
+      "emoji": "☕"
+    },
+    {
+      "id": "yolo-bowl",
+      "barcode": "YOLO:bowl",
+      "name": "Cuenco · demo",
+      "price": 2.0,
+      "unit": "unit",
+      "weight_g": 0,
+      "vision_label": "bowl",
+      "emoji": "🥣"
+    }
+  ]
+}

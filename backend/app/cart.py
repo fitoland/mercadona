@@ -5,6 +5,7 @@ States: idle, confirming (the AI is not sure and the customer picks), paying, pa
 
 import uuid
 from dataclasses import dataclass
+from datetime import datetime
 
 from .catalog import Catalog, Product
 
@@ -32,8 +33,19 @@ def new_id() -> str:
 class Line:
     id: str
     product: Product
-    quantity: int
+    units: int
     source: str  # "scanner" | "vision" | "selector": how the first unit was added
+
+    @property
+    def weight_g(self) -> float:
+        # There is no scale in the demo: each weighed piece counts the catalog's default
+        # weight, which in the real cart would come from the scale.
+        return self.units * self.product.weight_g
+
+    @property
+    def quantity(self) -> float:
+        """Units, or kg for products sold by weight."""
+        return round(self.weight_g / 1000, 3) if self.product.sold_by_weight else self.units
 
     @property
     def total(self) -> float:
@@ -43,7 +55,9 @@ class Line:
         return {
             "id": self.id,
             "product": self.product.to_dict(),
+            "units": self.units,
             "quantity": self.quantity,
+            "weight_g": round(self.weight_g) if self.product.sold_by_weight else None,
             "total": self.total,
             "source": self.source,
         }
@@ -57,6 +71,8 @@ class Cart:
         self.catalog = catalog
         self.mode = Mode.SCANNER
         self.notice: dict | None = None
+        # Paid tickets outlive the cart so the customer can open them later from the QR.
+        self.receipts: dict[str, dict] = {}
         self.new_cart()
 
     def new_cart(self) -> None:
@@ -86,7 +102,7 @@ class Cart:
         ranked = [
             (product, score)
             for product_id, score in candidates
-            if (product := self.catalog.by_id(product_id)) and not product.sold_by_weight
+            if (product := self.catalog.by_id(product_id))
         ]
         if ranked and ranked[0][1] >= VISION_CONFIDENCE:
             self._add(ranked[0][0], "vision")
@@ -116,8 +132,8 @@ class Cart:
             raise LookupError(f"Unknown line {line_id}")
         if self._is_checking_out():
             return
-        line.quantity -= 1
-        if line.quantity == 0:
+        line.units -= 1
+        if line.units == 0:
             self.lines.remove(line)
         self.notify(f"Removed {line.product.name}")
 
@@ -132,17 +148,26 @@ class Cart:
             self.notify("There is no payment in progress")
             return
         self.receipt_id = new_id().upper()
+        self.receipts[self.receipt_id] = {
+            "id": self.receipt_id,
+            "paid_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+            "lines": [l.to_dict() for l in self.lines],
+            "total": round(sum(l.total for l in self.lines), 2),
+        }
         self.state = State.PAID
 
+    def receipt(self, receipt_id: str) -> dict:
+        receipt = self.receipts.get(receipt_id.upper())
+        if receipt is None:
+            raise LookupError(f"Unknown receipt {receipt_id}")
+        return receipt
+
     def _add(self, product: Product, source: str) -> None:
-        if product.sold_by_weight:
-            self.notify(f"{product.name} is sold by weight: not available in this demo")
-            return
         line = next((l for l in self.lines if l.product.id == product.id), None)
         if line is None:
             self.lines.append(Line(new_id(), product, 1, source))
         else:
-            line.quantity += 1
+            line.units += 1
         self._back_to_idle()
         self.notify(f"Added {product.name}")
 

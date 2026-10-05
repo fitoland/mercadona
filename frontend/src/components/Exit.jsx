@@ -1,19 +1,22 @@
+import { useEffect, useState } from 'react'
+import QRCode from 'qrcode'
 import { eur, countUnits, productsLabel } from '../format.js'
 import { CheckIcon } from './Icons.jsx'
 
-// Deterministic bars from the receipt id: a stand-in for the code the exit gate reads.
-function bars(code = '') {
-  const out = []
-  for (const ch of `*${code}*`) {
-    const n = ch.charCodeAt(0)
-    for (let k = 0; k < 4; k++) out.push(1 + ((n >> k) % 3))
-  }
-  return out
-}
+// API rule 6: the QR opens the digital ticket on the customer's phone.
+export const ticketUrl = (receiptId) => `${location.origin}/#/ticket/${receiptId}`
 
-// Screen 8 of the mockup: paid, show the code for the fast exit.
+// Screen 8 of the mockup: paid, scan the QR to take the ticket home.
 export default function Exit({ state, onNewCart }) {
-  const widths = bars(state.receipt_id)
+  const [qr, setQr] = useState(null)
+
+  useEffect(() => {
+    if (!state.receipt_id) return
+    QRCode.toDataURL(ticketUrl(state.receipt_id), { width: 280, margin: 1, color: { dark: '#13261A', light: '#FFFFFF' } })
+      .then(setQr)
+      .catch(() => setQr(null))
+  }, [state.receipt_id])
+
   return (
     <section className="card main exit">
       <div className="exit-text">
@@ -21,7 +24,7 @@ export default function Exit({ state, onNewCart }) {
           <CheckIcon size={46} />
         </div>
         <h1 className="h1 left">Pago completado</h1>
-        <p className="lead left">Pasa por la salida rápida y enseña este código al lector del torno.</p>
+        <p className="lead left">Escanea el QR con la cámara de tu móvil para llevarte el ticket digital. Sin papel.</p>
         <dl className="facts">
           <div>
             <dt>{productsLabel(countUnits(state.lines))}</dt>
@@ -38,14 +41,14 @@ export default function Exit({ state, onNewCart }) {
       </div>
       <div className="exit-code">
         <div className="barcode-box">
-          <div className="barcode" role="img" aria-label={`Código de salida ${state.receipt_id}`}>
-            {widths.map((w, i) => (
-              <span key={i} style={{ width: w * 3, background: i % 2 ? '#FFFFFF' : '#13261A' }} />
-            ))}
-          </div>
+          {qr ? (
+            <img className="qr" src={qr} alt={`QR del ticket ${state.receipt_id}`} />
+          ) : (
+            <span className="spinner big" aria-hidden="true" />
+          )}
           <div className="barcode-text">{state.receipt_id}</div>
         </div>
-        <div className="muted">Válido durante 15 minutos</div>
+        <div className="muted">Tu ticket digital</div>
       </div>
     </section>
   )

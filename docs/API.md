@@ -1,3 +1,5 @@
+> **Integración YOLO:** el flujo continuo y sus rutas se documentan en [YOLO_INTEGRATION.md](YOLO_INTEGRATION.md). Las categorías `yolo-*` se añaden al mismo CartState y se publican por `/ws`. El reconocimiento no identifica referencias comerciales por marca.
+
 # Contrato de la API
 
 Contrato entre el frontend (pantalla del carro) y el backend. Si algo cambia, se cambia aquí primero.
@@ -38,6 +40,7 @@ La demo se hace con 2-3 productos envasados y **sin báscula**: el peso (fruta, 
 | POST | `/api/pay` | — | Pasar a la pantalla de pago. Solo en `idle` y con líneas |
 | POST | `/api/pay/confirm` | — | Tap to Pay simulado |
 | POST | `/api/new-cart` | — | Vaciar el carro y empezar de nuevo |
+| GET | `/api/receipts/{receipt_id}` | — | Ticket digital de una compra pagada (`Receipt`). Sigue disponible tras «Carro nuevo» |
 | POST | `/api/sim/vision` | `{ "product_id": "leche-entera" }` | **Plan B de la demo:** añade el producto como si lo hubiera reconocido la IA |
 
 ## Tipos
@@ -48,18 +51,28 @@ Product {
   barcode: string            // EAN-13
   name: string
   price: number              // €
-  unit: "unit" | "kg"        // en la demo solo se usan productos "unit"
-  weight_g: number           // no se usa en la demo
+  unit: "unit" | "kg"        // "kg": se cobra por peso (en la demo, el plátano)
+  weight_g: number           // si unit = "kg", peso por defecto de una pieza (lo que daría la báscula)
   vision_label: string       // descripción en inglés que usa la IA
   emoji: string              // "imagen" del producto en la UI
+  yolo_label: string | null  // clase de YOLO que se mapea a este producto ("bottle", "banana")
 }
 
 Line {
   id: string
   product: Product
-  quantity: number           // unidades; escanear el mismo producto otra vez suma 1
+  units: number              // piezas; escanear o detectar el mismo producto otra vez suma 1
+  quantity: number           // = units, o kg con 3 decimales si unit = "kg" (units × weight_g)
+  weight_g: number | null    // peso total de la línea si unit = "kg"; null si no
   total: number              // € redondeado a 2 decimales
   source: "scanner" | "vision" | "selector"   // cómo se añadió la primera unidad
+}
+
+Receipt {
+  id: string                 // el mismo que receipt_id
+  paid_at: string            // ISO 8601 con zona horaria, p. ej. "2026-10-05T13:29:06+02:00"
+  lines: Line[]
+  total: number
 }
 
 CartState {
@@ -82,7 +95,7 @@ CartState {
 | `idle` | Comprando | Ticket, cámara/escáner, botón de pagar |
 | `confirming` | La IA no está segura | Top 3 de `candidates` + «o escanéalo» + cancelar |
 | `paying` | Pantalla de pago | Total + «Acerca la tarjeta o el móvil» |
-| `paid` | Pagado | Confirmación + `receipt_id` + «Carro nuevo» |
+| `paid` | Pagado | Confirmación + QR del ticket digital + «Carro nuevo» |
 
 ## Reglas para el front
 
@@ -91,6 +104,7 @@ CartState {
 3. **`notice` solo cuando cambia su `id`.** El backend reenvía el último `notice` en cada mensaje.
 4. **Las acciones no permitidas no dan error.** Escanear mientras se paga, o reconocer con la IA aún cargando, responde 200 con el estado y un `notice` que lo explica. El front solo muestra el toast.
 5. **Errores reales:** los body mal formados o los ids que no existen devuelven 400 / 404 / 422 con `{ "detail": "..." }`.
+6. **Ticket digital por QR.** En `paid`, el front muestra un QR con la URL `{location.origin}/#/ticket/{receipt_id}`. Esa pantalla, pensada para móvil, pide `GET /api/receipts/{receipt_id}` y muestra el ticket. El móvil que escanea el QR tiene que estar en la misma red que el portátil. Los tickets se guardan en memoria: se pierden al reiniciar el backend.
 
 ## Ejemplos
 
