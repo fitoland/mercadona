@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { BrowserMultiFormatReader } from '@zxing/browser'
-import { BarcodeFormat, DecodeHintType } from '@zxing/library'
+import { BrowserMultiFormatOneDReader } from '@zxing/browser'
 import { CloseIcon } from './Icons.jsx'
 
-const hints = new Map([
-  [DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.EAN_13, BarcodeFormat.EAN_8, BarcodeFormat.UPC_A, BarcodeFormat.CODE_128]],
-])
+// The default 640x480 is too blurry for small EAN codes on phones and tablets.
+const CAMERA = { video: { facingMode: 'environment', width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false }
+const SCAN_INTERVAL_MS = 150
 
 // Screen 3 of the mockup (V1): the camera reads barcodes. A USB reader also works from any screen.
 export default function ScannerView({ onScan, onClose }) {
@@ -14,21 +13,30 @@ export default function ScannerView({ onScan, onClose }) {
   const [manual, setManual] = useState('')
 
   useEffect(() => {
+    let stream
     let controls
     let stopped = false
-    const reader = new BrowserMultiFormatReader(hints)
-    reader
-      .decodeFromConstraints({ video: { facingMode: 'environment' } }, videoRef.current, (result) => {
-        if (result) onScan(result.getText())
-      })
-      .then((c) => {
-        controls = c
-        if (stopped) c.stop()
+    const video = videoRef.current
+    // We own the stream instead of letting zxing open it: StrictMode mounts twice in dev, and two
+    // readers opening the camera on the same <video> leave Safari without camera.
+    navigator.mediaDevices
+      ?.getUserMedia(CAMERA)
+      .then(async (s) => {
+        if (stopped) return s.getTracks().forEach((t) => t.stop())
+        stream = s
+        video.srcObject = s
+        const reader = new BrowserMultiFormatOneDReader(null, SCAN_INTERVAL_MS)
+        controls = await reader.decodeFromVideoElement(video, (result) => {
+          if (result) onScan(result.getText())
+        })
+        if (stopped) controls.stop()
       })
       .catch((e) => setCamError(cameraMessage(e)))
+    if (!navigator.mediaDevices) setCamError(cameraMessage())
     return () => {
       stopped = true
       controls?.stop()
+      stream?.getTracks().forEach((t) => t.stop())
     }
   }, [onScan])
 
