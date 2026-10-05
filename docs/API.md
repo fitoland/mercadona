@@ -17,7 +17,7 @@ La demo se hace con 2-3 productos envasados y **sin báscula**: el peso (fruta, 
 - **V2 (cámara con IA):** el usuario abre la cámara y hace una foto → `POST /api/vision/recognize` → el backend la reconoce:
   - confianza alta (≥ 0.6) → añade el producto al ticket;
   - confianza baja → pasa a `confirming` con el top 3 en `candidates`, y el usuario elige con `POST /api/select` (o escanea el código, o cancela).
-- **Pago:** `POST /api/pay` → pantalla de pago → `POST /api/pay/confirm` (Tap to Pay simulado) → `POST /api/new-cart`.
+- **Pago:** `POST /api/pay` → pantalla de pago → `POST /api/pay/confirm` (Tap to Pay simulado) → `POST /api/new-cart`. Desde la pantalla de pago, `POST /api/cancel` vuelve a `idle` para seguir comprando.
 
 ## WebSocket
 
@@ -32,7 +32,7 @@ La demo se hace con 2-3 productos envasados y **sin báscula**: el peso (fruta, 
 | POST | `/api/scan` | `{ "barcode": "2000000000015" }` | Código leído por la cámara o por un lector USB |
 | POST | `/api/vision/recognize` | `{ "image": "data:image/jpeg;base64,..." }` | Foto del producto para la IA |
 | POST | `/api/select` | `{ "product_id": "leche-entera" }` | Candidato elegido en `confirming` |
-| POST | `/api/cancel` | — | Salir de `confirming` sin añadir nada |
+| POST | `/api/cancel` | — | Salir de `confirming` sin añadir nada, o de `paying` para seguir comprando (el carro se mantiene) |
 | POST | `/api/remove` | `{ "line_id": "f3a9c1d2" }` | Quitar **una unidad** de una línea (si llega a 0, la línea desaparece) |
 | POST | `/api/mode` | `{ "mode": "scanner" }` o `{ "mode": "vision" }` | Cambiar entre V1 y V2 (qué enseña la pantalla) |
 | POST | `/api/pay` | — | Pasar a la pantalla de pago. Solo en `idle` y con líneas |

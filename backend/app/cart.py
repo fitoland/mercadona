@@ -106,7 +106,8 @@ class Cart:
         self._add(product, "selector")
 
     def cancel(self) -> None:
-        if self.state == State.CONFIRMING:
+        """Leaves confirming without adding anything, or the payment screen to keep shopping."""
+        if self.state in (State.CONFIRMING, State.PAYING):
             self._back_to_idle()
 
     def remove(self, line_id: str) -> None:
