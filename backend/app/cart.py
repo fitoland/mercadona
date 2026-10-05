@@ -75,7 +75,7 @@ class Cart:
             return
         product = self.catalog.by_barcode(barcode)
         if product is None:
-            self._notify(f"Unknown barcode {barcode}")
+            self.notify(f"Unknown barcode {barcode}")
             return
         self._add(product, "scanner")
 
@@ -94,14 +94,14 @@ class Cart:
         self.candidates = ranked[:MAX_CANDIDATES]
         self.state = State.CONFIRMING
         if not ranked:
-            self._notify("Could not recognize the product. Scan it instead.")
+            self.notify("Could not recognize the product. Scan it instead.")
 
     def select(self, product_id: str) -> None:
         product = self.catalog.by_id(product_id)
         if product is None:
             raise LookupError(f"Unknown product {product_id}")
         if self.state != State.CONFIRMING:
-            self._notify("Nothing to confirm")
+            self.notify("Nothing to confirm")
             return
         self._add(product, "selector")
 
@@ -118,24 +118,24 @@ class Cart:
         line.quantity -= 1
         if line.quantity == 0:
             self.lines.remove(line)
-        self._notify(f"Removed {line.product.name}")
+        self.notify(f"Removed {line.product.name}")
 
     def pay(self) -> None:
         if self.state != State.IDLE or not self.lines:
-            self._notify("Add a product before paying")
+            self.notify("Add a product before paying")
             return
         self.state = State.PAYING
 
     def confirm_payment(self) -> None:
         if self.state != State.PAYING:
-            self._notify("There is no payment in progress")
+            self.notify("There is no payment in progress")
             return
         self.receipt_id = new_id().upper()
         self.state = State.PAID
 
     def _add(self, product: Product, source: str) -> None:
         if product.sold_by_weight:
-            self._notify(f"{product.name} is sold by weight: not available in this demo")
+            self.notify(f"{product.name} is sold by weight: not available in this demo")
             return
         line = next((l for l in self.lines if l.product.id == product.id), None)
         if line is None:
@@ -143,11 +143,11 @@ class Cart:
         else:
             line.quantity += 1
         self._back_to_idle()
-        self._notify(f"Added {product.name}")
+        self.notify(f"Added {product.name}")
 
     def _is_checking_out(self) -> bool:
         if self.state in (State.PAYING, State.PAID):
-            self._notify("The cart is locked during payment")
+            self.notify("The cart is locked during payment")
             return True
         return False
 
@@ -155,7 +155,7 @@ class Cart:
         self.candidates = []
         self.state = State.IDLE
 
-    def _notify(self, text: str) -> None:
+    def notify(self, text: str) -> None:
         self.notice = {"id": new_id(), "text": text}
 
     def snapshot(self) -> dict:
