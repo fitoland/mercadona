@@ -20,6 +20,23 @@ async function http(method, path, body) {
 }
 
 export const api = {
+  detect: async (image, confidence = .45) => {
+    if (mock) throw new Error('YOLO necesita el backend real. Recarga sin ?mock cuando esté disponible.')
+    const control = new AbortController()
+    const timeout = setTimeout(() => control.abort(), 60000)
+    try {
+      const res = await fetch('/api/vision/detect', { method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image, confidence }), signal: control.signal })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(typeof data.detail === 'string' ? data.detail : `Error ${res.status}`)
+      return data
+    } catch (e) {
+      if (e.name === 'AbortError') throw new Error('YOLO no respondió en 60 s. Revisa el terminal del portátil.')
+      throw e
+    } finally { clearTimeout(timeout) }
+  },
+  addDetection: (detection_id, product_id) => http('POST', '/api/vision/add', { detection_id, product_id }),
   catalog: () => http('GET', '/api/catalog'),
   scan: (barcode) => http('POST', '/api/scan', { barcode }),
   recognize: (image) => http('POST', '/api/vision/recognize', { image }),

@@ -1,3 +1,5 @@
+> **Integración YOLO:** el flujo continuo y sus rutas se documentan en [YOLO_INTEGRATION.md](YOLO_INTEGRATION.md). Las categorías `yolo-*` se añaden al mismo CartState y se publican por `/ws`. El reconocimiento no identifica referencias comerciales por marca.
+
 # Contrato de la API
 
 Contrato entre el frontend (pantalla del carro) y el backend. Si algo cambia, se cambia aquí primero.

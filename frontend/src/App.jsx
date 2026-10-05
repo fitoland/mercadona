@@ -110,8 +110,10 @@ function CartScreen({ state, conn, act, error }) {
     else if (panel === 'vision')
       main = (
         <VisionView
-          visionStatus={state.vision_status}
-          onPhoto={(img) => act(() => api.recognize(img))}
+          connected={conn === 'live' && state.mode === 'vision'}
+          onAdd={(token, id) => act(() => api.addDetection(token, id))}
+          lines={state.lines}
+          onRemove={(id) => act(() => api.remove(id))}
           onClose={() => setPanel(null)}
         />
       )

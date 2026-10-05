@@ -37,7 +37,11 @@ class Catalog:
     @classmethod
     def load(cls, path: Path = DEFAULT_PATH) -> "Catalog":
         data = json.loads(path.read_text(encoding="utf-8"))
-        return cls([Product(**p) for p in data["products"]])
+        products = [Product(**p) for p in data["products"]]
+        if path == DEFAULT_PATH:
+            demo = json.loads((DEFAULT_PATH.parent / "yolo_catalog.json").read_text(encoding="utf-8"))
+            products.extend(Product(**p) for p in demo["products"])
+        return cls(products)
 
     def by_id(self, product_id: str) -> Product | None:
         return self._by_id.get(product_id)

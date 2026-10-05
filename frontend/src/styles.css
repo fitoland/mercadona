@@ -192,3 +192,24 @@ a:hover { color: var(--green-dark); }
   .barcode { height: 120px; }
   .camera { min-height: 300px; }
 }
+
+/* Local YOLO panel: keep the exact image aspect ratio for normalized boxes. */
+.yolo-panel { gap: 16px; overflow: visible; }
+.yolo-camera { flex: none; min-height: 0; width: 100%; }
+.yolo-camera video, .yolo-camera canvas { position: static; width: 100%; height: 100%; object-fit: contain; }
+.yolo-camera .camera-msg { font-size: 18px; }
+.yolo-box { position: absolute; border: 2px solid #bafa69; pointer-events: none; }
+.yolo-box > span { position: absolute; bottom: 100%; left: -2px; background: #bafa69; color: #12311c; font-size: 11px; padding: 2px 4px; white-space: nowrap; }
+.yolo-other { border-color: #aecbfa; }
+.yolo-other > span { background: #aecbfa; }
+.yolo-gate { position: absolute; inset: 15% 20%; border: 1px dashed white; pointer-events: none; }
+.yolo-gate span { position: absolute; top: -20px; color: white; font-size: 10px; }
+.yolo-controls, .yolo-settings { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.yolo-settings { font-size: 14px; justify-content: space-between; }
+.yolo-settings input { accent-color: #008d4b; }
+.yolo-upload { cursor: pointer; position: relative; }
+.yolo-upload input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.yolo-result { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid #e2e8e4; }
+.yolo-result > span:first-child { flex: 1; min-width: 0; }
+.yolo-ticket { border-top: 1px solid #dce5df; padding-top: 16px; }
+@media(max-width: 600px) { .yolo-panel { padding: 14px; } .yolo-result { font-size: 13px; } .yolo-controls > * { font-size: 13px; } }
