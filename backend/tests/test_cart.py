@@ -43,10 +43,31 @@ def test_unknown_barcode_leaves_a_notice(cart):
     assert "Unknown barcode" in cart.notice["text"]
 
 
-def test_products_sold_by_weight_are_not_added(cart):
+def test_weighed_product_is_billed_by_its_default_weight(cart):
     cart.scan(BANANA.barcode)
 
-    assert cart.lines == []
+    line = cart.lines[0]
+    assert line.weight_g == BANANA.weight_g
+    assert line.quantity == round(BANANA.weight_g / 1000, 3)
+    assert line.total == round(BANANA.price * BANANA.weight_g / 1000, 2)
+
+
+def test_each_weighed_piece_adds_its_default_weight(cart):
+    cart.scan(BANANA.barcode)
+    cart.scan(BANANA.barcode)
+
+    line = cart.lines[0]
+    assert line.units == 2
+    assert line.weight_g == 2 * BANANA.weight_g
+    assert line.to_dict()["weight_g"] == 2 * BANANA.weight_g
+
+
+def test_removing_a_weighed_piece_subtracts_its_weight(cart):
+    cart.scan(BANANA.barcode)
+    cart.scan(BANANA.barcode)
+    cart.remove(cart.lines[0].id)
+
+    assert cart.lines[0].weight_g == BANANA.weight_g
 
 
 def test_removing_takes_one_unit_and_then_the_line(cart):
@@ -81,11 +102,11 @@ def test_unsure_vision_result_asks_the_customer(cart):
     assert [p.id for p, _ in cart.candidates] == [MILK.id, YOGURT.id, WATER.id]
 
 
-def test_vision_ignores_products_sold_by_weight(cart):
+def test_vision_adds_weighed_products(cart):
     cart.vision_result([(BANANA.id, 0.9), (MILK.id, 0.1)])
 
-    assert cart.state == State.CONFIRMING
-    assert [p.id for p, _ in cart.candidates] == [MILK.id]
+    assert products(cart) == [(BANANA.id, round(BANANA.weight_g / 1000, 3))]
+    assert cart.lines[0].source == "vision"
 
 
 def test_choosing_a_candidate_adds_it(cart):
